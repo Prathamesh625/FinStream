@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: finstream-ingress
+  namespace: finstream
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: finstream.local
+    http:
+      paths:
+      - path: /api/v1/transactions
+        pathType: Prefix
+        backend:
+          service:
+            name: ingestion-service
+            port:
+              number: 8082
+      - path: /api/v1/analytics
+        pathType: Prefix
+        backend:
+          service:
+            name: analytics-service
+            port:
+              number: 8085

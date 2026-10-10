@@ -1,0 +1,114 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: finstream-secrets
+  namespace: finstream
+type: Opaque
+stringData:
+  postgres-password: postgrespassword
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: finstream-config
+  namespace: finstream
+data:
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/finstream_db
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_REDIS_HOST: redis
+  SPRING_REDIS_PORT: "6379"
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+---
+# Ingestion Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingestion-service
+  namespace: finstream
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ingestion-service
+  template:
+    metadata:
+      labels:
+        app: ingestion-service
+    spec:
+      containers:
+      - name: ingestion-service
+        image: finstream/ingestion-service:latest
+        envFrom:
+        - configMapRef:
+            name: finstream-config
+        ports:
+        - containerPort: 8082
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1024Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingestion-service
+  namespace: finstream
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8082
+  selector:
+    app: ingestion-service
+---
+# Processor Service Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor-service
+  namespace: finstream
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: processor-service
+  template:
+    metadata:
+      labels:
+        app: processor-service
+    spec:
+      containers:
+      - name: processor-service
+        image: finstream/processor-service:latest
+        envFrom:
+        - configMapRef:
+            name: finstream-config
+        env:
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: finstream-secrets
+              key: postgres-password
+        ports:
+        - containerPort: 8083
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "1024Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: processor-service
+  namespace: finstream
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8083
+  selector:
+    app: processor-service

@@ -1,0 +1,22 @@
+# Maven build outputs
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE & Editor files
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# OS & Log files
+.DS_Store
+Thumbs.db
+*.log
+
+# Scratch directory
+scratch/

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinStream - Financial Transaction Processing Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="top-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>FinStream <span>Enterprise</span></h1>
+                    <p class="subtitle">Distributed Event-Driven Financial Core Platform</p>
+                </div>
+            </div>
+
+            <div class="header-badges">
+                <div class="system-status-pill online">
+                    <span class="dot pulse"></span>
+                    <span class="status-label">Kafka Cluster Active</span>
+                </div>
+                <div class="metric-chip">
+                    <span class="chip-label">Target SLA:</span>
+                    <span class="chip-value text-emerald">&lt; 200ms P99</span>
+                </div>
+                <div class="metric-chip">
+                    <span class="chip-label">Availability:</span>
+                    <span class="chip-value text-cyan">99.99%</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Content -->
+        <main class="dashboard-grid">
+            
+            <!-- Top Hero Metrics Row -->
+            <section class="hero-metrics-row">
+                <!-- Throughput Metric -->
+                <div class="metric-card glass glow-cyan">
+                    <div class="card-header">
+                        <span class="card-title">Real-Time Throughput</span>
+                        <span class="card-icon">⚡</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="huge-number" id="tps-counter">1,240</div>
+                        <div class="number-unit">Transactions / Sec (TPS)</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill cyan-gradient" id="tps-progress" style="width: 82%;"></div>
+                    </div>
+                    <div class="card-footer">
+                        <span>Capacity Benchmark: 1,500 TPS</span>
+                        <span class="text-cyan font-mono" id="peak-tps">Peak: 1,480 TPS</span>
+                    </div>
+                </div>
+
+                <!-- Processing Latency -->
+                <div class="metric-card glass glow-emerald">
+                    <div class="card-header">
+                        <span class="card-title">Event Latency Spectrum</span>
+                        <span class="card-icon">⏱️</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="latency-grid">
+                            <div class="latency-box">
+                                <span class="lat-label">P50</span>
+                                <span class="lat-val text-emerald" id="p50-val">12 ms</span>
+                            </div>
+                            <div class="latency-box">
+                                <span class="lat-label">P95</span>
+                                <span class="lat-val text-cyan" id="p95-val">42 ms</span>
+                            </div>
+                            <div class="latency-box">
+                                <span class="lat-label">P99</span>
+                                <span class="lat-val text-violet" id="p99-val">118 ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span>Sub-200ms SLA Compliance</span>
+                        <span class="badge badge-success">PASSED</span>
+                    </div>
+                </div>
+
+                <!-- Total Volume -->
+                <div class="metric-card glass glow-violet">
+                    <div class="card-header">
+                        <span class="card-title">Total Transactions</span>
+                        <span class="card-icon">📊</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="huge-number text-violet" id="total-txns">148,920</div>
+                        <div class="number-unit">Processed in Current Session</div>
+                    </div>
+                    <div class="card-footer">
+                        <span>Success Rate</span>
+                        <span class="text-emerald font-mono" id="success-rate">99.94%</span>
+                    </div>
+                </div>
+
+                <!-- Fraud Alerts Counter -->
+                <div class="metric-card glass glow-rose">
+                    <div class="card-header">
+                        <span class="card-title">Fraud Rules Triggered</span>
+                        <span class="card-icon">🛡️</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="huge-number text-rose" id="fraud-count">14</div>
+                        <div class="number-unit">Velocity / Anomaly Detections</div>
+                    </div>
+                    <div class="card-footer">
+                        <span>Redis Velocity Window</span>
+                        <span class="text-rose font-mono">5 sec / 10 limit</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Middle Row: Interactive Controls & Topology Visualization -->
+            <section class="middle-row">
+                
+                <!-- High-Volume Load Generator & Simulator -->
+                <div class="control-panel glass">
+                    <div class="panel-header">
+                        <h3>🚀 High-Throughput Load Simulator</h3>
+                        <span class="badge badge-primary">1,000+ TPS Engine</span>
+                    </div>
+                    <div class="panel-body">
+                        <p class="panel-desc">Stress-test the event-driven microservices architecture with concurrent multi-threaded payload generation.</p>
+
+                        <div class="simulator-form">
+                            <div class="form-group">
+                                <label>Target Rate (TPS):</label>
+                                <input type="range" id="tps-slider" min="100" max="2000" step="50" value="1200">
+                                <span class="range-display" id="tps-slider-val">1,200 TPS</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Duration (Seconds):</label>
+                                <select id="test-duration">
+                                    <option value="15">15 Seconds</option>
+                                    <option value="30" selected>30 Seconds</option>
+                                    <option value="60">60 Seconds</option>
+                                </select>
+                            </div>
+
+                            <div class="btn-group">
+                                <button class="btn btn-primary glow-button" id="btn-start-load">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    Launch 1,000+ TPS Burst Test
+                                </button>
+                                <button class="btn btn-danger" id="btn-stop-load" disabled>Stop Simulator</button>
+                            </div>
+                        </div>
+
+                        <!-- Manual Instant Single Transaction -->
+                        <div class="manual-txn-divider">
+                            <span>OR EXECUTE SINGLE DIRECT TRANSACTION</span>
+                        </div>
+
+                        <form id="single-txn-form" class="single-txn-grid">
+                            <input type="text" id="input-src" placeholder="Source ACC (e.g. ACC-101)" value="ACC-101" required>
+                            <input type="text" id="input-dest" placeholder="Dest ACC (e.g. ACC-202)" value="ACC-202" required>
+                            <input type="number" id="input-amount" placeholder="Amount ($)" value="250.00" required>
+                            <button type="submit" class="btn btn-secondary">Submit Event</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Microservice Topology Visualizer -->
+                <div class="topology-panel glass">
+                    <div class="panel-header">
+                        <h3>🌐 Microservices & Infrastructure Topology</h3>
+                        <span class="live-dot">LIVE TOPOLOGY</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="topology-map">
+                            <!-- Ingestion Node -->
+                            <div class="topo-node active" id="node-ingestion">
+                                <div class="node-icon">⚡</div>
+                                <div class="node-name">Ingestion Service</div>
+                                <div class="node-port">Port 8082</div>
+                                <div class="node-tag">Spring Boot</div>
+                            </div>
+
+                            <div class="topo-arrow">➔</div>
+
+                            <!-- Kafka Bus -->
+                            <div class="topo-node active glow-kafka" id="node-kafka">
+                                <div class="node-icon">🔄</div>
+                                <div class="node-name">Apache Kafka</div>
+                                <div class="node-port">6 Partitions</div>
+                                <div class="node-tag">Event Hub</div>
+                            </div>
+
+                            <div class="topo-arrow">➔</div>
+
+                            <!-- Processor Node -->
+                            <div class="topo-node active" id="node-processor">
+                                <div class="node-icon">⚙️</div>
+                                <div class="node-name">Processor Service</div>
+                                <div class="node-port">Port 8083</div>
+                                <div class="node-tag">Consumer</div>
+                            </div>
+
+                            <!-- Datastores Row -->
+                            <div class="topo-sub-layer">
+                                <div class="topo-node active glow-redis" id="node-redis">
+                                    <div class="node-icon">⚡</div>
+                                    <div class="node-name">Redis Cache</div>
+                                    <div class="node-port">Locks / Velocity</div>
+                                </div>
+                                <div class="topo-node active glow-postgres" id="node-postgres">
+                                    <div class="node-icon">🗄️</div>
+                                    <div class="node-name">PostgreSQL</div>
+                                    <div class="node-port">Ledger DB</div>
+                                </div>
+                                <div class="topo-node active" id="node-fraud">
+                                    <div class="node-icon">🛡️</div>
+                                    <div class="node-name">Fraud Service</div>
+                                    <div class="node-port">Port 8084</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Row: Real-Time Stream Ticker & Fraud Alert Log -->
+            <section class="bottom-row">
+                
+                <!-- Live Transaction Stream Ticker -->
+                <div class="stream-panel glass">
+                    <div class="panel-header">
+                        <h3>📋 Live Transaction Event Feed</h3>
+                        <span class="badge badge-outline" id="feed-count">50 Latest Events</span>
+                    </div>
+                    <div class="panel-body table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>Source ACC</th>
+                                    <th>Dest ACC</th>
+                                    <th>Amount</th>
+                                    <th>Latency</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-feed-body">
+                                <!-- Populated dynamically by app.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Fraud & Security Alert Panel -->
+                <div class="alerts-panel glass">
+                    <div class="panel-header">
+                        <h3>🚨 Real-Time Security & Fraud Alerts</h3>
+                        <span class="badge badge-rose" id="alert-count-badge">0 Active Alerts</span>
+                    </div>
+                    <div class="panel-body alert-list" id="fraud-alert-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
